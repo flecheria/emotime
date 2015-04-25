@@ -13,16 +13,25 @@
 using namespace std;
 using namespace cv;
 
+/**
+ *  @brief extract the file extension of a file
+ *
+ */
 std::string matrix_io_fileExt( std::string & file){
   return file.substr(file.find_last_of(".") + 1);
 }
 
+/**
+ *  @brief extract the file name
+ *
+ */
 std::string matrix_io_fileName( std::string & file){
-  int nameBegin=std::max( (int) file.find_last_of(string(PATH_SEPARATOR))+1, 0 );
+  int nameBegin=std::max( (int) file.find_last_of(string(PATH_SEPARATOR)) + 1, 0 );
   size_t nameEnd=file.find_last_of(".");
-  size_t extLen= file.substr(nameEnd, file.length()-nameEnd).length();
-  return file.substr( std::max( (int) file.find_last_of(string(PATH_SEPARATOR))+1, 0 ) , file.length()-nameBegin-extLen );
+  size_t extLen= file.substr(nameEnd, file.length() - nameEnd).length();
+  return file.substr( std::max( (int) file.find_last_of(string(PATH_SEPARATOR))+1, 0 ) , file.length() - nameBegin - extLen );
 }
+
 std::string matrix_io_fileBaseName(std::string & file){
   int nameBegin=std::max( (int) file.find_last_of(string(PATH_SEPARATOR))+1, 0 );
   return file.substr(nameBegin, string::npos);
@@ -30,23 +39,36 @@ std::string matrix_io_fileBaseName(std::string & file){
 
 cv::Mat matrix_io_load(std::string & filePath){
   try {
+    // load the file path where to look at
 		string file = filePath;
+    // extract the file extensione
     string format =  matrix_io_fileExt(file);
+
+    // if we are loading a .yml file
     if(format==XMLEXT || format==YMLEXT) {
+      // extract the file name
        string name = matrix_io_fileName(file);
+       // create an OpenCV file storage and set for reading
+       // http://docs.opencv.org/master/da/d56/classcv_1_1FileStorage.html
        FileStorage fs(file, FileStorage::READ);
-       Mat * mat = new Mat();
+       // create a pointer to an OpenCV matrix
+       Mat *mat = new Mat();
+       // copy the content of the yml files where the new #mat is pointed
        fs[name] >> *mat;
+       // delete the FileStorage
        fs.release();
+       // return the mat
        return *mat;
     } else {
       // Otherwise threat it as image
       return imread( filePath, CV_LOAD_IMAGE_GRAYSCALE );
     }
+
   }
 	catch (int e) {
-		cerr<<"ERR: Exception #" << e << endl;
-		return *(new Mat(0,0,CV_32FC1));
+		cerr << "ERR: Exception #" << e << endl;
+    // return a pointer to an empty OpenCV matrix
+		return *( new Mat(0, 0, CV_32FC1) );
 	}
 
 }
