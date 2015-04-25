@@ -112,7 +112,7 @@ After `mkdir build; cd build; cmake ..; make ; make install` go to the `assets` 
 
 1. Initialize a dataset using:
 
-        python datasetInit.py -cfg <CONFIGFILE> <EMPTY_DATASET_FOLDER>
+        python datasetInit.py --cfg <CONFIGFILE> <EMPTY_DATASET_FOLDER>
 
 2. Then fill it with your images or use the Cohn-Kanade importing script:
 
