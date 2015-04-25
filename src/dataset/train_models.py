@@ -89,6 +89,10 @@ if __name__ == "__main__":
 
 ########################### Training
   print(" [4] Training with %s and selecting relevant features..."%args.mode)
+  
+  #########################################################################################
+  ### we stop here after the call to datasetTrain.py
+  #########################################################################################
 
   if subprocess.call(['python', './datasetTrain.py'] + mode_args + base_args) is not 0:
     print(" [#] An Error occured! Exiting...")
