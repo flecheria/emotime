@@ -78,11 +78,16 @@ int main(int argc, const char* argv[]) {
   string infile(argv[2]);
   string outfile(argv[3]);
 
+  // create the proper classifier
   emotime::Classifier* classifier;
 	if (method == "svm") {
+    // DEBUG
+    cout << "creation of an SVM Classifier" << endl;
     classifier = new emotime::SVMClassifier(emotime::kCfactor,
         emotime::kMaxIteration, emotime::kErrorMargin);
   } else {
+    // DEBUG
+    cout << "creation of an ADA Classifier" << endl;
     classifier = new emotime::AdaBoostClassifier(emotime::kBoostType,
         emotime::kTrimWeight, emotime::kMaxDepth);
   }
