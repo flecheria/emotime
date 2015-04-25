@@ -92,15 +92,21 @@ int main(int argc, const char* argv[]) {
         emotime::kTrimWeight, emotime::kMaxDepth);
   }
 
+  // set the defoult return value
   int ret = 0;
-  if (!classifier->train(infile)) {
+ 
+  // some error chekin'
+  if ( !classifier->train(infile) ) {
+     // if classifier can't train the file return error and close
     cerr << "Error training!" << endl;
     ret = 1;
-  } else if (!classifier->save(outfile)) {
+  } else if ( !classifier->save(outfile) ) {
+    // if classifier can't save the data return error and close
     cerr << "Error saving!" << endl;
     ret = 1;
   }
 
+  // deete and return
   delete classifier;
   return ret;
 }
